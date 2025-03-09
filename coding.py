@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_tok
 import certifi
 import redis
 import os
+import pymongo
 from pymongo import MongoClient
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, join_room, leave_room
