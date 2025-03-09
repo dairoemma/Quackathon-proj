@@ -3,7 +3,7 @@ services:
     build: .
     container_name: web
     ports:
-      - "5000:5000"  
+      - "1000:1000"  
     depends_on:
        - redis 
          
