@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, JWTManager, decode_token
 import certifi
 import redis
+import os
 from pymongo import MongoClient
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, join_room, leave_room
@@ -198,5 +199,6 @@ def leave_room(ur):
         print({"message": "successfully deleted user chat"})
 
 
-if __name__ == "main":
-    socket.run(app, debug=True, host="0.0.0.0", port=1000)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 1000))
+    socket.run(app, debug=True, host="0.0.0.0", port=port)
