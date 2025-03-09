@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, JWTManager, decode_token
 import redis
+import certifi
 import os
 import pymongo
 from pymongo import MongoClient
@@ -22,7 +23,7 @@ user_dict = {}
 
 
 def get_mongodb_value():
-    client = pymongo.MongoClient("mongodb+srv://dairotomiwa7:sqMDE3MBbKJLPqji@cluster0.qjvb2.mongodb.net/")
+    client = pymongo.MongoClient("mongodb+srv://dairotomiwa7:sqMDE3MBbKJLPqji@cluster0.qjvb2.mongodb.net/?authMechanism=DEFAULT&tls=true&tlsAllowInvalidCertificates=true")
     db = client["Quackathon_uni-database"]
     return db
 
