@@ -1,15 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, JWTManager, decode_token
 import redis
-import certifi
 import os
 import pymongo
-from pymongo import MongoClient
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, join_room, leave_room
+import certifi
+from pymongo import MongoClient
 
 
 app = Flask(__name__)
+
 app.config['JWT_SECRET_KEY'] = 'my_secret_key'
 jwt = JWTManager(app)
 app.config['SESSION_TYPE'] = redis
@@ -23,8 +24,8 @@ user_dict = {}
 
 
 def get_mongodb_value():
-    client = pymongo.MongoClient("mongodb+srv://dairotomiwa7:sqMDE3MBbKJLPqji@cluster0.qjvb2.mongodb.net/?authMechanism=DEFAULT&tls=true&tlsAllowInvalidCertificates=true")
-    db = client["Quackathon_uni-database"]
+    Client = pymongo.MongoClient("mongodb+srv://dairotomiwa7:Kawhi7@cluster-db.jws4d.mongodb.net/", tlsCAFile=certifi.where())
+    db = Client["Practice-database"]
     return db
 
 
