@@ -4,3 +4,4 @@ COPY requirement.txt /code
 RUN pip install -r requirement.txt --no-cache-dir
 COPY . /code
 CMD python coding.py
+EXPOSE 5000
