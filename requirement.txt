@@ -4,3 +4,4 @@ flask-socketio==5.3.6
 flask_jwt_extended==4.5.3
 flask-cors==4.0.0
 pymongo[srv]==4.5.0
+certifi==2025.1.31
