@@ -23,22 +23,22 @@ user_dict = {}
 
 
 def get_mongodb_value():
-    Client = pymongo.MongoClient("mongodb+srv://dairotomiwa7:Kawhi7@cluster-db.jws4d.mongodb.net/", tlsCAFile=certifi.where())
-    db = Client["Practice-database"]
+    client = pymongo.MongoClient("mongodb+srv://dairotomiwa7:Kawhi7@cluster-db.jws4d.mongodb.net/", tlsCAFile=certifi.where())
+    db = client["Practice-database"]
     return db
 
 
 def fetch_mongodb_uni_details():
     global uni_dict
     db = get_mongodb_value()
-    uni_details = db.Uni.find()
+    uni_details = db.Uni.find({}, {"_id": 0})
     uni_dict = {uni["name"]: uni for uni in uni_details}
 
 
 def fetch_mongodb_user_details():
     global user_dict
     db = get_mongodb_value()
-    user_details = db.user.find()
+    user_details =  db.user.find({}, {"_id": 0})
     user_dict = {user["name"]: user for user in user_details}
 
 
@@ -201,4 +201,4 @@ def leave_room(ur):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 1000))
-    socket.run(app, debug=True, host="0.0.0.0", port=port)
+    socket.run(app, debug=True, host="0.0.0.0", port=port,allow_unsafe_werkzeug=True)
