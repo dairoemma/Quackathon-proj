@@ -22,8 +22,7 @@ user_dict = {}
 
 
 def get_mongodb_value():
-    client = MongoClient("mongodb+srv://dairotomiwa7:sqMDE3MBbKJLPqji@cluster0.qjvb2.mongodb.net/",
-                         tlsCAFile=certifi.where())
+    client = MongoClient("mongodb+srv://dairotomiwa7:sqMDE3MBbKJLPqji@cluster0.qjvb2.mongodb.net/", tlsCAFile=certifi.where())
     db = client["Quackathon_uni-database"]
     return db
 
