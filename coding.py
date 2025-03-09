@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, JWTManager, decode_token
-import redis
-import os
+from redis import Redis
 import pymongo
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, join_room, leave_room
@@ -12,10 +11,10 @@ app = Flask(__name__)
 
 app.config['JWT_SECRET_KEY'] = 'my_secret_key'
 jwt = JWTManager(app)
-app.config['SESSION_TYPE'] = redis
+app.config['SESSION_TYPE'] = Redis
 app.config['SESSION_PERMANENT'] = False
 CORS(app)
-red = redis.StrictRedis(host='35.192.222.77', port=6379, db=0, decode_responses=True)
+redis = Redis(host='redis', port=6379, db=0, decode_responses=True)
 socket = SocketIO(app, cors_allowed_origin="*")
 
 uni_dict = {}
@@ -160,7 +159,7 @@ def socket_on_connect():
         user_id = decoded_token['identity']
         room = join_room(user_id)
 
-        red.set(user_id, room)
+        redis.set(user_id, room)
     else:
         print({"message": "Invalid access"})
 
@@ -173,8 +172,8 @@ def handle_message(msg):
     if request_token:
         decoded_token = decode_token(request_token)
         user_name = decoded_token['identity']
-        validate_room = red.get(room)
-        validate_user = red.get(user_name)
+        validate_room = redis.get(room)
+        validate_user = redis.get(user_name)
         if validate_user:
             if validate_room:
                 emit(message, to=room)
@@ -200,5 +199,4 @@ def leave_room(ur):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 1000))
-    socket.run(app, debug=True, host="0.0.0.0", port=port,allow_unsafe_werkzeug=True)
+    socket.run(app, debug=True,allow_unsafe_werkzeug=True)
