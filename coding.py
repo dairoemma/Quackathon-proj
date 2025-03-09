@@ -199,4 +199,4 @@ def leave_room(ur):
 
 
 if __name__ == "main":
-    socket.run(app, debug=True, host="0.0.0.0", port=5000)
+    socket.run(app, debug=True, host="0.0.0.0", port=1000)
