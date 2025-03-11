@@ -22,8 +22,7 @@ user_dict = {}
 
 
 def get_mongodb_value():
-    client = pymongo.MongoClient("mongodb+srv://dairotomiwa7:Kawhi7@cluster-db.jws4d.mongodb.net/", tlsCAFile=certifi.where())
-    db = client["Practice-database"]
+    
     return db
 
 
