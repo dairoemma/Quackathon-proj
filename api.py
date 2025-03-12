@@ -37,6 +37,9 @@ def get_mongodb_client():
 # Password hashing setup
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# initialize mongo
+db = get_mongodb_client()
+
 # JWT Token functions
 def create_access_token(identity: str):
     """Generate JWT access token"""
@@ -74,7 +77,7 @@ def health_check():
 @app.post("/app_authenticate_user")
 def app_authenticate_user(user: UserAuth):
     """Authenticate user and return a JWT token."""
-    db = get_mongodb_client()
+    
     user_details = db.user.find_one({"name": user.user_name}, {"_id": 0})
     
     if user_details and user_details["password"] == user.password:
@@ -86,7 +89,7 @@ def app_authenticate_user(user: UserAuth):
 @app.post("/app_add_user")
 def app_add_user(user: UserAuth):
     """Add a new user to the database."""
-    db = get_mongodb_client()
+    
     existing_user = db.user.find_one({"name": user.user_name})
     
     if existing_user:
@@ -100,7 +103,7 @@ def app_add_user(user: UserAuth):
 def app_user_profile(token: str):
     """Get user profile details."""
     user_name = verify_token(token)
-    db = get_mongodb_client()
+    
     user_details = db.user.find_one({"name": user_name}, {"_id": 0})
     
     if user_details:
@@ -111,7 +114,7 @@ def app_user_profile(token: str):
 @app.get("/app_get_users")
 def app_get_users():
     """Retrieve all users from the database."""
-    db = get_mongodb_client()
+    
     users = list(db.user.find({}, {"_id": 0}))
     return users
 
@@ -119,7 +122,7 @@ def app_get_users():
 def app_delete_user(token: str):
     """Delete the authenticated user from the database."""
     user_name = verify_token(token)
-    db = get_mongodb_client()
+    
     result = db.user.delete_one({"name": user_name})
     
     if result.deleted_count:
@@ -130,14 +133,14 @@ def app_delete_user(token: str):
 @app.get("/app_get_universities")
 def app_get_universities():
     """Retrieve university details from the database."""
-    db = get_mongodb_client()
+    
     universities = list(db.Uni.find({}, {"_id": 0}))
     return universities
 
 @app.get("/app_view_university")
 def app_view_university(uni_choice: str):
     """Retrieve details of a specific university."""
-    db = get_mongodb_client()
+    
     uni_details = db.Uni.find_one({"name": uni_choice}, {"_id": 0})
     
     if uni_details:
