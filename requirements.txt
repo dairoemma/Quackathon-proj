@@ -13,4 +13,5 @@ redis
 python-dotenv 
 fastapi-jwt-auth<0.6
 pydantic<2
+passlib[bcrypt]
 
